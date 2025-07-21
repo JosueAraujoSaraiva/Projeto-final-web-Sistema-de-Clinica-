@@ -2,13 +2,29 @@ const paciente = require('../models/paciente');
 
 // Criação de paciente
 exports.criarPaciente = async (req, res) => {
-  const { nome, telefone, cpf, endereco } = req.body;
+  const {
+    nome,
+    cpf,
+    dataNascimento,
+    sexo,
+    telefone,
+    email,
+    logradouro,
+    numero,
+    bairro,
+    cidade,
+    estado,
+    cep,
+    observacoes
+  } = req.body;
 
-  if (!nome || !telefone || !cpf || !endereco) {
-    return res.status(400).json({ erro: 'Dados incompletos' });
+  // Validação básica dos campos obrigatórios
+  if (!nome || !cpf || !telefone) {
+    return res.status(400).json({ erro: 'Campos obrigatórios: nome, cpf e telefone' });
   }
 
   try {
+    // Verifica se CPF já existe
     const pacienteExistente = await paciente.findUnique({
       where: { cpf },
     });
@@ -17,14 +33,29 @@ exports.criarPaciente = async (req, res) => {
       return res.status(409).json({ erro: 'CPF já cadastrado' });
     }
 
+    // Cria novo paciente
     const novoPaciente = await paciente.create({
-      data: { nome, telefone, cpf, endereco },
+      data: {
+        nome,
+        cpf,
+        dataNascimento: dataNascimento ? new Date(dataNascimento) : undefined,
+        sexo,
+        telefone,
+        email,
+        logradouro,
+        numero,
+        bairro,
+        cidade,
+        estado,
+        cep,
+        observacoes,
+      },
     });
 
-    res.status(201).json(novoPaciente);
+    return res.status(201).json(novoPaciente);
   } catch (err) {
     console.error('Erro ao criar paciente:', err);
-    res.status(500).json({ erro: 'Erro no servidor' });
+    return res.status(500).json({ erro: 'Erro no servidor' });
   }
 };
 
@@ -32,9 +63,10 @@ exports.criarPaciente = async (req, res) => {
 exports.listarPacientes = async (req, res) => {
   try {
     const pacientes = await paciente.findMany();
-    res.json(pacientes);
+    return res.json(pacientes);
   } catch (err) {
-    res.status(500).json({ erro: 'Erro ao buscar pacientes' });
+    console.error('Erro ao buscar pacientes:', err);
+    return res.status(500).json({ erro: 'Erro ao buscar pacientes' });
   }
 };
 
@@ -51,32 +83,61 @@ exports.buscarPacientePorId = async (req, res) => {
       return res.status(404).json({ erro: 'Paciente não encontrado' });
     }
 
-    res.json(pacienteEncontrado);
+    return res.json(pacienteEncontrado);
   } catch (err) {
-    res.status(500).json({ erro: 'Erro ao buscar paciente' });
+    console.error('Erro ao buscar paciente:', err);
+    return res.status(500).json({ erro: 'Erro ao buscar paciente' });
   }
 };
 
 // Atualizar paciente
 exports.atualizarPaciente = async (req, res) => {
   const { id } = req.params;
-  const { nome, telefone, cpf, endereco } = req.body;
+  const {
+    nome,
+    cpf,
+    dataNascimento,
+    sexo,
+    telefone,
+    email,
+    logradouro,
+    numero,
+    bairro,
+    cidade,
+    estado,
+    cep,
+    observacoes
+  } = req.body;
 
   try {
     const pacienteAtualizado = await paciente.update({
       where: { id: Number(id) },
-      data: { nome, telefone, cpf, endereco },
+      data: {
+        nome,
+        cpf,
+        dataNascimento: dataNascimento ? new Date(dataNascimento) : undefined,
+        sexo,
+        telefone,
+        email,
+        logradouro,
+        numero,
+        bairro,
+        cidade,
+        estado,
+        cep,
+        observacoes,
+      },
     });
 
-    res.json(pacienteAtualizado);
+    return res.json(pacienteAtualizado);
   } catch (err) {
     console.error('Erro ao atualizar paciente:', err);
 
-    if (err.code === 'P2025') { // registro não encontrado no Prisma
+    if (err.code === 'P2025') {
       return res.status(404).json({ erro: 'Paciente não encontrado' });
     }
 
-    res.status(500).json({ erro: 'Erro ao atualizar paciente' });
+    return res.status(500).json({ erro: 'Erro ao atualizar paciente' });
   }
 };
 
@@ -89,7 +150,7 @@ exports.deletarPaciente = async (req, res) => {
       where: { id: Number(id) },
     });
 
-    res.status(204).send();
+    return res.status(204).send();
   } catch (err) {
     console.error('Erro ao deletar paciente:', err);
 
@@ -97,6 +158,6 @@ exports.deletarPaciente = async (req, res) => {
       return res.status(404).json({ erro: 'Paciente não encontrado' });
     }
 
-    res.status(500).json({ erro: 'Erro ao deletar paciente' });
+    return res.status(500).json({ erro: 'Erro ao deletar paciente' });
   }
 };

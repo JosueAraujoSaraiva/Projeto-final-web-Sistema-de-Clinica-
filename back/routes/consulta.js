@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const consultaController = require('../controllers/consultaController');
 
-router.post('/cadastrar', consultaController.cadastrarConsulta);          // CREATE
+router.post('/criar', consultaController.cadastrarConsulta);          // CREATE
 router.get('/listar', consultaController.listarConsultas);               // READ ALL
 router.get('/buscar/:id', consultaController.buscarConsultaPorId);       // READ ONE
 router.put('/atualizar/:id', consultaController.atualizarConsulta);      // UPDATE

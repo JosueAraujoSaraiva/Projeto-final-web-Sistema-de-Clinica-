@@ -124,13 +124,3 @@ form legend {
 .btn-primario:hover {
   background-color: #1d4ed8;
 }
-
-@media (max-width: 600px) {
-  .form-actions {
-    text-align: center;
-  }
-
-  .btn-primario {
-    width: 100%;
-  }
-}

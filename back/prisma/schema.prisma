@@ -23,11 +23,20 @@ model Usuario {
 }
 
 model Paciente {
-  id         Int        @id @default(autoincrement())
-  nome       String
-  telefone   String
-  cpf        String     @unique
-  endereco   String
+  id              Int      @id @default(autoincrement())
+  nome            String
+  cpf             String   @unique
+  dataNascimento  DateTime?
+  sexo            String?
+  telefone        String?
+  email           String?  // pode ser opcional
+  logradouro      String?
+  numero          String?
+  bairro          String?
+  cidade          String?
+  estado          String?
+  cep             String?
+  observacoes     String?
 
   consultas  Consulta[] // Consultas agendadas para esse paciente
 }
