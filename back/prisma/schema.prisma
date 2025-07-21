@@ -7,45 +7,72 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum StatusConsulta {
+  AGENDADO
+  REALIZADO
+  CANCELADO
+}
 
 model Usuario {
   id         Int        @id @default(autoincrement())
   nome       String
   email      String     @unique
   senha      String
-  tipo       String     // 'admin' ou 'funcionario'
-  consultas  Consulta[] // Consultas agendadas por esse funcionário
+  tipo       String     // 'admin' ou 'funcionario' (profissional)
+  
 }
-
 
 model Paciente {
   id         Int        @id @default(autoincrement())
   nome       String
   telefone   String
-  cpf        String
+  cpf        String     @unique
   endereco   String
 
-  consultas  Consulta[]  // Consultas agendadas pelo paciente
+  consultas  Consulta[] // Consultas agendadas para esse paciente
 }
 
+model Funcionario {
+  id                Int      @id @default(autoincrement())
+  nomeCompleto      String
+  cpf               String   @unique
+  dataNascimento    DateTime
+  sexo              String?
+  telefone          String?
+  email             String?  @unique
+  logradouro        String?
+  numero            String?
+  bairro            String?
+  cidade            String?
+  estado            String?
+  cep               String?
+  cargo             String?
+  departamento      String?
+  dataAdmissao      DateTime
+  salario           Float?
+  observacoes       String?
+
+  consultas         Consulta[]  // campo inverso da relação com Consulta
+}
 
 model Consulta {
-  id             Int       @id @default(autoincrement())
+  id             Int             @id @default(autoincrement())
   dataConsulta   DateTime
   observacoes    String?
+  status         StatusConsulta  @default(AGENDADO)
+
   pacienteId     Int
-  funcionarioId  Int   
+  funcionarioId  Int
 
-  paciente       Paciente  @relation(fields: [pacienteId], references: [id])
-  funcionario    Usuario   @relation(fields: [funcionarioId], references: [id], onDelete: Restrict)
-  exames         Exame[]   
+  paciente       Paciente        @relation(fields: [pacienteId], references: [id])
+  funcionario    Funcionario    @relation(fields: [funcionarioId], references: [id], onDelete: Restrict)
+  exames         Exame[]
 }
-
 
 model Exame {
   id          Int       @id @default(autoincrement())
   nome        String
-  consultaId  Int       
+  consultaId  Int
 
   consulta    Consulta  @relation(fields: [consultaId], references: [id])
 }

@@ -1,0 +1,35 @@
+<!-- Exemplo inicial de estrutura -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sistema de Clínica</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Estrutura principal (sidebar + main content) -->
+  <div class="container">
+    <aside class="sidebar">
+      <div class="logo">SysClinic</div>
+      <nav>
+        <ul>
+          <li data-page="dashboard">Dashboard</li>
+          <li data-page="pacientes">Cadastro de Pacientes</li>
+          <li data-page="funcionarios">Cadastro de Funcionários</li>
+          <li data-page="agendamentos">Agendamentos</li>
+        </ul>
+      </nav>
+    </aside>
+    <main class="content" id="main-content">
+      <!-- Conteúdo dinâmico carregado aqui -->
+    </main>
+  </div>
+
+  <!-- Biblioteca Inputmask para formatação de CPF e Telefone -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.8/inputmask.min.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>

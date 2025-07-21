@@ -1,0 +1,57 @@
+<div class="pagina-agendamentos">
+  <h2>Agendamentos</h2>
+
+  <!-- Formulário para novo agendamento -->
+  <form class="form-agendamento">
+    <fieldset>
+      <legend>Novo Agendamento</legend>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="paciente">Paciente</label>
+          <select id="paciente" name="paciente" required>
+            <option value="">Selecione</option>
+            <!-- Opções carregadas dinamicamente -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="profissional">Profissional</label>
+          <select id="profissional" name="profissional" required>
+            <option value="">Selecione</option>
+            <!-- Opções carregadas dinamicamente -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="data">Data</label>
+          <input type="date" id="data" name="data" required />
+        </div>
+        <div class="form-group">
+          <label for="hora">Hora</label>
+          <input type="time" id="hora" name="hora" required />
+        </div>
+      </div>
+    </fieldset>
+    <div class="form-actions">
+      <button type="submit" class="btn-primario">Agendar</button>
+    </div>
+  </form>
+
+  <!-- Lista de agendamentos -->
+  <section class="lista-agendamentos">
+    <h3>Agendamentos Marcados</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Paciente</th>
+          <th>Profissional</th>
+          <th>Data</th>
+          <th>Hora</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Linhas preenchidas dinamicamente -->
+      </tbody>
+    </table>
+  </section>
+</div>
